@@ -656,7 +656,16 @@ async def queue(interaction: discord.Interaction):
         if thumbnail_url:
             embed.set_thumbnail(url=thumbnail_url)
         if upcoming_songs:
-            embed.add_field(name="📜 Up Next", value="\n".join(upcoming_songs), inline=False)
+            # Split the queue into chunks of 10 songs each
+            chunk_size = 10
+            for i in range(0, len(upcoming_songs), chunk_size):
+                chunk = upcoming_songs[i:i+chunk_size]
+                chunk_text = "\n".join(chunk)
+                if len(chunk_text) > 1024:
+                    chunk_text = chunk_text[:1021] + "..."
+                embed.add_field(name=f"📜 Up Next (Songs {i+1}-{i+len(chunk)})", value=chunk_text, inline=False)
+        else:
+            embed.add_field(name="📜 Up Next", value="The queue is empty.", inline=False)
         embed.set_footer(text="Use /play to add more songs!")
         await interaction.followup.send(embed=embed)
     except Exception as e:
