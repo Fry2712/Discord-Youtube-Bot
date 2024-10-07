@@ -35,6 +35,14 @@ docker build -t discord-music-bot .
 docker run -d --name music-bot discord-music-bot
 ```
 
+For manual rebuilds, you can use:
+```bash
+docker build -t discord-music-bot .
+docker stop music-bot
+docker rm music-bot
+docker run -d --name music-bot discord-music-bot
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
